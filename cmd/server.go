@@ -289,9 +289,14 @@ func serveMux(ctx context.Context) (*http.ServeMux, error) {
 		return nil, err
 	}
 
-	if err := registerProvider(mux, s); err != nil {
+	// XXX: config flag
+	gh, _ := storage.NewGithubStorage(ctx)
+	if err := registerProvider(mux, gh); err != nil {
 		return nil, err
 	}
+	//if err := registerProvider(mux, s); err != nil {
+	//	return nil, err
+	//}
 
 	if flagProviderNetworkMirrorEnabled {
 		mirrorCopier := mirror.NewMirror(ctx, logger, s)

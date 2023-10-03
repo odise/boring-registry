@@ -30,6 +30,7 @@ var (
 	flagDebug bool
 
 	// S3 options.
+	flagGithub            string
 	flagS3Bucket          string
 	flagS3Prefix          string
 	flagS3Region          string

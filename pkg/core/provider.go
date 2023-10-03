@@ -126,6 +126,18 @@ type SigningKeys struct {
 	GPGPublicKeys []GPGPublicKey `json:"gpg_public_keys,omitempty"`
 }
 
+type ProviderRegistryProtocol struct {
+	Protocols           []string    `json:"protocols"`
+	Os                  string      `json:"os"`
+	Arch                string      `json:"arch"`
+	Filename            string      `json:"filename"`
+	DownloadURL         string      `json:"download_url"`
+	ShasumsURL          string      `json:"shasums_url"`
+	ShasumsSignatureURL string      `json:"shasums_signature_url"`
+	Shasum              string      `json:"shasum"`
+	SigningKeys         SigningKeys `json:"signing_keys"`
+}
+
 // IsValidSha256Sums verifies whether the GPG signature of to the SHA256SUMS file was created with a private key
 // corresponding to one of the public keys in SigningKeys
 func (s *SigningKeys) IsValidSha256Sums(sha256Sums, sha256SumsSig []byte) error {
