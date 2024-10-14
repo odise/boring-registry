@@ -227,6 +227,14 @@ func setupStorage(ctx context.Context) (storage.Storage, error) {
 			storage.WithGCSSignedUrlExpiry(flagGCSSignedURLExpiry),
 			storage.WithGCSArchiveFormat(flagModuleArchiveFormat),
 		)
+	case flagBlobStorageContainer != "":
+		return storage.NewBlobStorage(flagBlobStorageAccountName,
+			flagBlobStorageContainer,
+			storage.WithBlobStorageBucketPrefix(flagBlobStoragePrefix),
+			//storage.WithBlobStorage erviceAccount(flagGCSServiceAccount),
+			storage.WithBlobStorageSignedUrlExpiry(flagBlobStorageSignedURLExpiry),
+			storage.WithBlobStorageArchiveFormat(flagModuleArchiveFormat),
+		)
 	default:
 		return nil, errors.New("please specify a valid storage provider")
 	}

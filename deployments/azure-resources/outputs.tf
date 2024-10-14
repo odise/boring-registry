@@ -31,3 +31,9 @@ output "resource_group_id" {
 output "terraform_state_container_name" {
   value = azurerm_storage_container.tfstate.name
 }
+output "boring_registry_container_name" {
+  value = azurerm_storage_container.boring_registry_container.name
+}
+output "default_credentials" {
+  value = "az login --service-principal -u ${azuread_application_registration.boring_registry.client_id} -p ${nonsensitive(azuread_application_password.boring_registry.value)} --tenant ${var.tenant_id}"
+}

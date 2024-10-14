@@ -1,5 +1,19 @@
 # `enercity-prod` stack
 
+```shell
+az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+```
+
+In order to use a service principal for deployment set the following environment variables:
+
+```shell
+export ARM_SUBSCRIPTION_ID=...
+export ARM_TENANT_ID=...
+
+# taken from the deployed stack outputs
+export ARM_CLIENT_ID=..
+export ARM_CLIENT_SECRET=...
+```
 ## `pre-commit` hooks
 
 Make sure you have [pre-commit](https://pre-commit.com/) installed. Run `pre-commit install` to activate pre-commit 

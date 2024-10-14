@@ -9,9 +9,9 @@ resource "azurerm_resource_group" "boring_registry" {
 
 # service principal
 resource "azuread_application_registration" "boring_registry" {
-  display_name = "Boring Registry"
-  description  = "Boring Registry TF Deployment Application"
-  #  sign_in_audience        = "AzureADMyOrg"
+  display_name            = "Boring Registry"
+  description             = "Boring Registry TF Deployment Application"
+  sign_in_audience        = "AzureADMyOrg"
   group_membership_claims = ["All"]
 }
 resource "azuread_application_password" "boring_registry" {
@@ -23,15 +23,22 @@ data "azuread_client_config" "current" {}
 resource "azuread_service_principal" "boring_registry" {
   client_id                    = azuread_application_registration.boring_registry.client_id
   app_role_assignment_required = false
-  owners                       = [data.azuread_client_config.current.object_id]
-  #  application_id               = null
+
+  owners = [
+    data.azuread_client_config.current.object_id,
+  ]
+  lifecycle {
+    ignore_changes = [
+      owners,
+    ]
+  }
 }
 
 data "azurerm_subscription" "current" {}
 resource "azurerm_role_assignment" "boring_registry" {
   scope                = data.azurerm_subscription.current.id
-  role_definition_name = "Contributor"
-  principal_id         = azuread_service_principal.boring_registry.object_id #  data.azurerm_client_config.example.object_id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azuread_service_principal.boring_registry.object_id
 }
 
 # Storage
